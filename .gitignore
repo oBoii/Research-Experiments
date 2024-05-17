@@ -2,3 +2,4 @@ lightning_logs
 wandb
 .idea
 data
+sinkhorn/saved_models/model.pth
