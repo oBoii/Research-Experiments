@@ -3,3 +3,4 @@ wandb
 .idea
 data
 sinkhorn/saved_models/model.pth
+.ipynb_checkpoints
