@@ -5,3 +5,4 @@ data
 sinkhorn/saved_models/model.pth
 .ipynb_checkpoints
 *.pyc
+uncertainy/saved_models/model.pth
