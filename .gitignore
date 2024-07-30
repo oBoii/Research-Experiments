@@ -6,3 +6,4 @@ sinkhorn/saved_models/model.pth
 .ipynb_checkpoints
 *.pyc
 uncertainy/saved_models/model.pth
+uncertainy/saved_models/model*.pth
