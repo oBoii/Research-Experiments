@@ -1,0 +1,18 @@
+digraph {
+	graph [rankdir=LR]
+	Input [label="Input (28x28)"]
+	Linear_0 [label="Linear (40)"]
+	Reparam_0 [label="Reparam (20)"]
+	Input -> Linear_0
+	Linear_0 -> Reparam_0
+	Linear_1 [label="Linear (20)"]
+	Reparam_1 [label="Reparam (10)"]
+	Reparam_0 -> Linear_1
+	Linear_1 -> Reparam_1
+	Linear_2 [label="Linear (40)"]
+	Reparam_2 [label="Reparam (20)"]
+	Reparam_1 -> Linear_2
+	Linear_2 -> Reparam_2
+	Output [label="Output (28x28)"]
+	Reparam_2 -> Output
+}
