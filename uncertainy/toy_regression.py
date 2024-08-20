@@ -5,10 +5,12 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 
 
-def create_data_loader(x, y, batch_size, num_workers, shuffle: bool):
+def create_data_loader(x, y, batch_size, num_workers, shuffle: bool) -> Tuple[DataLoader, TensorDataset]:
     dataset = TensorDataset(x, y)
-    return DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True,
-                      num_workers=num_workers, pin_memory=True, persistent_workers=True)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle,
+                            drop_last=False, num_workers=num_workers,
+                            pin_memory=True, persistent_workers=True)
+    return dataloader, dataset
 
 
 def sample_dataset(start, end, n):
@@ -23,8 +25,12 @@ def sample_dataset(start, end, n):
     return x, y
 
 
-def get_toy_regression_data_loaders(batch_size: int, num_workers: int, num_points: int) -> Tuple[
-    DataLoader, DataLoader, DataLoader]:
+def get_toy_regression_data_loaders(batch_size: int, num_workers: int, num_points: int) -> (
+        Tuple)[
+    Tuple[DataLoader, TensorDataset],
+    Tuple[DataLoader, TensorDataset],
+    Tuple[DataLoader, TensorDataset]
+]:
     # Split the data into train, validation, and test sets
     train_size = int(0.7 * num_points)
     val_size = int(0.15 * num_points)
@@ -34,16 +40,16 @@ def get_toy_regression_data_loaders(batch_size: int, num_workers: int, num_point
     x_val, y_val = sample_dataset(-7, 7, val_size)
     x_test, y_test = sample_dataset(-10, 10, test_size)
 
-    train_loader = create_data_loader(x_train, y_train, batch_size, num_workers, shuffle=True)
-    val_loader = create_data_loader(x_val, y_val, batch_size, num_workers, shuffle=False)
-    test_loader = create_data_loader(x_test, y_test, batch_size, num_workers, shuffle=False)
+    train_loader, train_set = create_data_loader(x_train, y_train, batch_size, num_workers, shuffle=True)
+    val_loader, val_set = create_data_loader(x_val, y_val, batch_size, num_workers, shuffle=False)
+    test_loader, test_set = create_data_loader(x_test, y_test, batch_size, num_workers, shuffle=False)
 
     # print shapes
     print(f"Train loader shape: {len(train_loader.dataset)}")
     print(f"Val loader shape: {len(val_loader.dataset)}")
     print(f"Test loader shape: {len(test_loader.dataset)}")
 
-    return train_loader, val_loader, test_loader
+    return (train_loader, train_set), (val_loader, val_set), (test_loader, test_set)
 
 
 if __name__ == '__main__':
